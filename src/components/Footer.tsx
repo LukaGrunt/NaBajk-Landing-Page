@@ -9,18 +9,14 @@ export function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
-        {/* Top section */}
+        {/* Top section - Logo left, Instagram right */}
         <div className={styles.top}>
-          {/* Logo and tagline */}
-          <div className={styles.brand}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/logo.png"
-              alt="NaBajk"
-              className={styles.logo}
-            />
-            <p className={styles.tagline}>{t('footerTagline')}</p>
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo.png"
+            alt="NaBajk"
+            className={styles.logo}
+          />
 
           {/* Instagram link */}
           <a
@@ -30,21 +26,17 @@ export function Footer() {
             className={styles.instagramLink}
             aria-label="Follow NaBajk on Instagram"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="2"/>
               <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/>
               <circle cx="18" cy="6" r="1.5" fill="currentColor"/>
             </svg>
-            <span>Instagram</span>
           </a>
         </div>
 
-        {/* Divider */}
-        <div className={styles.divider} />
-
-        {/* Bottom section */}
+        {/* Bottom section - Tagline centered */}
         <div className={styles.bottom}>
-          <p className={styles.copyright}>{t('footerCopyright')}</p>
+          <p className={styles.tagline}>{t('footerTagline')}</p>
         </div>
       </div>
     </footer>
