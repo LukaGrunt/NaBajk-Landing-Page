@@ -51,6 +51,18 @@ const CalendarIcon = () => (
   </svg>
 )
 
+// Icon: Group Rides/People
+const GroupRidesIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="10" cy="10" r="4" stroke="currentColor" strokeWidth="2" />
+    <circle cx="22" cy="10" r="4" stroke="currentColor" strokeWidth="2" />
+    <path d="M4 26C4 22.134 7.13401 19 11 19H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <path d="M19 19H21C24.866 19 28 22.134 28 26" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <circle cx="16" cy="14" r="4" stroke="currentColor" strokeWidth="2" />
+    <path d="M10 28C10 24.134 12.6863 21 16 21C19.3137 21 22 24.134 22 28" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+)
+
 export function FeatureNarrative() {
   const { t } = useLanguage()
 
@@ -69,6 +81,11 @@ export function FeatureNarrative() {
       icon: <CalendarIcon />,
       title: t('feature3Title'),
       description: t('feature3Description'),
+    },
+    {
+      icon: <GroupRidesIcon />,
+      title: t('feature4Title'),
+      description: t('feature4Description'),
     },
   ]
 

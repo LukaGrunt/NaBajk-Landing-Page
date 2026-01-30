@@ -6,7 +6,7 @@ export const translations = {
     heroHeadline: 'Ne veš kam na kolo?',
     heroSubheadlinePrefix: 'Izbrane cestne poti v ',
     heroSubheadlineAccent: 'Sloveniji.',
-    heroDescription: 'Brez brskanja po naključnih segmentih - samo najboljše ceste, razdeljene po regijah in pripravljene za tvoj naslednji izziv.',
+    heroDescription: 'Najboljše ceste, razdeljene po regijah, in skupinske vožnje - vse za tvoj naslednji izlet.',
 
     // Waitlist
     waitlistTitle: 'Bodi med prvimi',
@@ -30,6 +30,8 @@ export const translations = {
     feature2Description: 'Hitra napoved po regiji z vetrom, preden se odločiš za smer.',
     feature3Title: 'Koledar rekreativnih tekem',
     feature3Description: 'Amaterski cestni dogodki v Sloveniji, z zbranimi datumi in direktnimi povezavami do organizatorjev.',
+    feature4Title: 'Skupinske vožnje',
+    feature4Description: 'Ustvari svojo vožnjo ali se pridruži obstoječi. Povabi prijatelje in skupaj odkrijte nove poti.',
     featuresOffline: 'Zemljevidi poti bodo na voljo tudi za prenos (offline).',
     featuresLaunchingSoon: 'NaBajk prihaja kmalu. Sledi za launch.',
 
@@ -67,7 +69,7 @@ export const translations = {
     heroHeadline: 'Don\'t know where to ride?',
     heroSubheadlinePrefix: 'Curated road routes in ',
     heroSubheadlineAccent: 'Slovenia.',
-    heroDescription: 'No digging through random segments - just the best roads, organized by region and ready for your next challenge.',
+    heroDescription: 'The best roads organized by region, plus group rides - everything for your next adventure.',
 
     // Waitlist
     waitlistTitle: 'Be among the first',
@@ -91,6 +93,8 @@ export const translations = {
     feature2Description: 'Quick forecast by region with wind, before you commit to a route.',
     feature3Title: 'Amateur race calendar',
     feature3Description: 'Slovenia\'s amateur road events in one calendar, with dates and direct organizer links.',
+    feature4Title: 'Group rides',
+    feature4Description: 'Create your own ride or join an existing one. Invite friends and discover new routes together.',
     featuresOffline: 'Route maps will be downloadable for offline use.',
     featuresLaunchingSoon: 'NaBajk is launching soon. Follow for updates.',
 
