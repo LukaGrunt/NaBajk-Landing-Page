@@ -171,6 +171,7 @@ export interface Database {
           id: string
           name: string
           race_date: string
+          race_type: string | null
           region: string | null
           link: string | null
           created_at: string
@@ -180,6 +181,7 @@ export interface Database {
           id?: string
           name: string
           race_date: string
+          race_type?: string | null
           region?: string | null
           link?: string | null
           created_at?: string
@@ -189,6 +191,7 @@ export interface Database {
           id?: string
           name?: string
           race_date?: string
+          race_type?: string | null
           region?: string | null
           link?: string | null
           created_at?: string
@@ -232,4 +235,10 @@ export const DIFFICULTIES = [
   { value: 'easy', label: 'Easy' },
   { value: 'medium', label: 'Medium' },
   { value: 'hard', label: 'Hard' },
+] as const
+
+export const RACE_TYPES = [
+  { value: 'Cestna', label: 'Cestna' },
+  { value: 'Kronometer', label: 'Kronometer' },
+  { value: 'Vzpon', label: 'Vzpon' },
 ] as const

@@ -353,6 +353,7 @@ CREATE TABLE IF NOT EXISTS races (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   name TEXT NOT NULL,                                     -- Race name
   race_date DATE NOT NULL,                                -- Date of the race
+  race_type TEXT,                                         -- Type: Cestna, Kronometer, Vzpon, etc.
   region TEXT,                                            -- Optional: location/region
   link TEXT,                                              -- Optional: URL for more info
   created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
