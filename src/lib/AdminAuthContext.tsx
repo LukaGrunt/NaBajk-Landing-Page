@@ -21,17 +21,23 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Check initial auth state
+    // Check initial auth state with timeout
     async function initAuth() {
-      const { user } = await getUser()
-      setUser(user)
+      try {
+        const { user } = await getUser()
+        setUser(user)
 
-      if (user) {
-        const adminStatus = await checkIsAdmin()
-        setIsAdmin(adminStatus)
+        if (user) {
+          const adminStatus = await checkIsAdmin(user.id)
+          setIsAdmin(adminStatus)
+        }
+      } catch (err) {
+        console.error('Auth init error:', err)
+        setUser(null)
+        setIsAdmin(false)
+      } finally {
+        setLoading(false)
       }
-
-      setLoading(false)
     }
 
     initAuth()
@@ -43,8 +49,12 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
         setUser(currentUser)
 
         if (currentUser) {
-          const adminStatus = await checkIsAdmin()
-          setIsAdmin(adminStatus)
+          try {
+            const adminStatus = await checkIsAdmin(currentUser.id)
+            setIsAdmin(adminStatus)
+          } catch {
+            setIsAdmin(false)
+          }
         } else {
           setIsAdmin(false)
         }

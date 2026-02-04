@@ -30,15 +30,15 @@ export async function getUser() {
   return { user, error }
 }
 
-// Check if current user is an admin
-export async function checkIsAdmin(): Promise<boolean> {
-  const { user } = await getUser()
-  if (!user) return false
+// Check if a user is an admin (pass userId to avoid refetching)
+export async function checkIsAdmin(userId?: string): Promise<boolean> {
+  const uid = userId || (await getUser()).user?.id
+  if (!uid) return false
 
   const { data, error } = await supabase
     .from('admins')
     .select('id')
-    .eq('user_id', user.id)
+    .eq('user_id', uid)
     .single()
 
   if (error || !data) return false
