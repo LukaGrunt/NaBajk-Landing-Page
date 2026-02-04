@@ -71,6 +71,24 @@ export function AdminProtected({ children }: AdminProtectedProps) {
           >
             Announcements
           </Link>
+          <Link
+            href="/admin/routes"
+            className={`adminNavLink ${pathname === '/admin/routes' ? 'active' : ''}`}
+          >
+            Routes
+          </Link>
+          <Link
+            href="/admin/group-rides"
+            className={`adminNavLink ${pathname === '/admin/group-rides' ? 'active' : ''}`}
+          >
+            Group Rides
+          </Link>
+          <Link
+            href="/admin/races"
+            className={`adminNavLink ${pathname === '/admin/races' ? 'active' : ''}`}
+          >
+            Races
+          </Link>
           <button onClick={signOut} className="signOutBtn">
             Sign out
           </button>

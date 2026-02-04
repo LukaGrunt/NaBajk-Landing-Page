@@ -44,3 +44,78 @@ export async function checkIsAdmin(): Promise<boolean> {
   if (error || !data) return false
   return true
 }
+
+// Diagnostics type for debugging
+export interface AuthDiagnostics {
+  hasSession: boolean
+  userId: string | null
+  userEmail: string | null
+  isAdmin: boolean
+  sessionError: string | null
+  adminCheckError: string | null
+  timestamp: string
+}
+
+// Get full auth diagnostics for debugging write failures
+export async function getAuthDiagnostics(): Promise<AuthDiagnostics> {
+  const timestamp = new Date().toISOString()
+
+  // Check session
+  const { session, error: sessionError } = await getSession()
+
+  if (!session) {
+    return {
+      hasSession: false,
+      userId: null,
+      userEmail: null,
+      isAdmin: false,
+      sessionError: sessionError?.message || 'No active session',
+      adminCheckError: null,
+      timestamp,
+    }
+  }
+
+  const userId = session.user?.id || null
+  const userEmail = session.user?.email || null
+
+  // Check admin status
+  let isAdmin = false
+  let adminCheckError: string | null = null
+
+  if (userId) {
+    const { data, error } = await supabase
+      .from('admins')
+      .select('id')
+      .eq('user_id', userId)
+      .single()
+
+    if (error) {
+      adminCheckError = error.message
+      isAdmin = false
+    } else {
+      isAdmin = !!data
+    }
+  }
+
+  return {
+    hasSession: true,
+    userId,
+    userEmail,
+    isAdmin,
+    sessionError: null,
+    adminCheckError,
+    timestamp,
+  }
+}
+
+// Format diagnostics for error display
+export function formatDiagnosticsForError(diag: AuthDiagnostics): string {
+  const parts = [
+    `User: ${diag.userId || 'none'}`,
+    `Admin: ${diag.isAdmin ? 'yes' : 'no'}`,
+    `Session: ${diag.hasSession ? 'valid' : 'missing'}`,
+  ]
+  if (diag.sessionError) parts.push(`Session error: ${diag.sessionError}`)
+  if (diag.adminCheckError) parts.push(`Admin check error: ${diag.adminCheckError}`)
+  return parts.join(' | ')
+}

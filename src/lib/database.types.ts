@@ -81,6 +81,120 @@ export interface Database {
           created_at?: string
         }
       }
+      routes: {
+        Row: {
+          id: string
+          title: string
+          gpx_data: string | null
+          distance_km: number | null
+          elevation_m: number | null
+          difficulty: 'easy' | 'medium' | 'hard'
+          region: 'gorenjska' | 'dolenjska' | 'stajerska' | 'primorska' | 'osrednja_slovenija' | 'prekmurje'
+          traffic: string | null
+          road_condition: string | null
+          why_good: string | null
+          published: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          gpx_data?: string | null
+          distance_km?: number | null
+          elevation_m?: number | null
+          difficulty: 'easy' | 'medium' | 'hard'
+          region: 'gorenjska' | 'dolenjska' | 'stajerska' | 'primorska' | 'osrednja_slovenija' | 'prekmurje'
+          traffic?: string | null
+          road_condition?: string | null
+          why_good?: string | null
+          published?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          gpx_data?: string | null
+          distance_km?: number | null
+          elevation_m?: number | null
+          difficulty?: 'easy' | 'medium' | 'hard'
+          region?: 'gorenjska' | 'dolenjska' | 'stajerska' | 'primorska' | 'osrednja_slovenija' | 'prekmurje'
+          traffic?: string | null
+          road_condition?: string | null
+          why_good?: string | null
+          published?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      group_rides: {
+        Row: {
+          id: string
+          title: string
+          ride_date: string
+          ride_time: string
+          region: 'gorenjska' | 'dolenjska' | 'stajerska' | 'primorska' | 'osrednja_slovenija' | 'prekmurje'
+          meeting_point: string
+          notes: string | null
+          cancelled: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          ride_date: string
+          ride_time: string
+          region: 'gorenjska' | 'dolenjska' | 'stajerska' | 'primorska' | 'osrednja_slovenija' | 'prekmurje'
+          meeting_point: string
+          notes?: string | null
+          cancelled?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          ride_date?: string
+          ride_time?: string
+          region?: 'gorenjska' | 'dolenjska' | 'stajerska' | 'primorska' | 'osrednja_slovenija' | 'prekmurje'
+          meeting_point?: string
+          notes?: string | null
+          cancelled?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      races: {
+        Row: {
+          id: string
+          name: string
+          race_date: string
+          region: string | null
+          link: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          race_date: string
+          region?: string | null
+          link?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          race_date?: string
+          region?: string | null
+          link?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
   }
 }
@@ -91,3 +205,31 @@ export type AnnouncementInsert = Database['public']['Tables']['announcements']['
 export type AnnouncementUpdate = Database['public']['Tables']['announcements']['Update']
 
 export type Admin = Database['public']['Tables']['admins']['Row']
+
+export type Route = Database['public']['Tables']['routes']['Row']
+export type RouteInsert = Database['public']['Tables']['routes']['Insert']
+export type RouteUpdate = Database['public']['Tables']['routes']['Update']
+
+export type GroupRide = Database['public']['Tables']['group_rides']['Row']
+export type GroupRideInsert = Database['public']['Tables']['group_rides']['Insert']
+export type GroupRideUpdate = Database['public']['Tables']['group_rides']['Update']
+
+export type Race = Database['public']['Tables']['races']['Row']
+export type RaceInsert = Database['public']['Tables']['races']['Insert']
+export type RaceUpdate = Database['public']['Tables']['races']['Update']
+
+// Route constants
+export const REGIONS = [
+  { value: 'gorenjska', label: 'Gorenjska' },
+  { value: 'dolenjska', label: 'Dolenjska' },
+  { value: 'stajerska', label: 'Štajerska' },
+  { value: 'primorska', label: 'Primorska' },
+  { value: 'osrednja_slovenija', label: 'Osrednja Slovenija' },
+  { value: 'prekmurje', label: 'Prekmurje' },
+] as const
+
+export const DIFFICULTIES = [
+  { value: 'easy', label: 'Easy' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'hard', label: 'Hard' },
+] as const

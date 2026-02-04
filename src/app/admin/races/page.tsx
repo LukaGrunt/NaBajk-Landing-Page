@@ -4,123 +4,173 @@ import { useState, useEffect, useCallback } from 'react'
 import { AdminProtected } from '@/components/AdminProtected'
 import { supabase, getAuthDiagnostics, formatDiagnosticsForError } from '@/lib/supabase'
 import type { AuthDiagnostics } from '@/lib/supabase'
-import type { Announcement } from '@/lib/database.types'
+import type { Race } from '@/lib/database.types'
 
 type ModalMode = 'create' | 'edit' | null
 
-// Explicit language mapping - ensures we only send 'sl' or 'en'
-function normalizeLanguage(lang: string): 'sl' | 'en' {
-  const normalized = (lang || '').toLowerCase().trim()
-  if (normalized === 'en' || normalized === 'english') return 'en'
-  return 'sl'
-}
-
-// Convert empty string to null for optional date fields
-function normalizeDate(dateStr: string): string | null {
-  if (!dateStr || dateStr.trim() === '') return null
+// Simple URL validation
+function isValidUrl(str: string): boolean {
+  if (!str) return true // empty is valid (optional field)
   try {
-    return new Date(dateStr).toISOString()
+    new URL(str)
+    return true
   } catch {
-    return null
+    // Try with https:// prefix
+    try {
+      new URL('https://' + str)
+      return true
+    } catch {
+      return false
+    }
   }
 }
 
-export default function AnnouncementsPage() {
-  const [announcements, setAnnouncements] = useState<Announcement[]>([])
+// Normalize URL - add https:// if missing
+function normalizeUrl(str: string): string | null {
+  if (!str.trim()) return null
+  const trimmed = str.trim()
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed
+  }
+  return 'https://' + trimmed
+}
+
+export default function RacesPage() {
+  const [races, setRaces] = useState<Race[]>([])
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [modalMode, setModalMode] = useState<ModalMode>(null)
-  const [editingAnnouncement, setEditingAnnouncement] = useState<Announcement | null>(null)
+  const [editingRace, setEditingRace] = useState<Race | null>(null)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [pageError, setPageError] = useState<string | null>(null)
+
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('')
 
   // Auth diagnostics state - only populated on-demand when errors occur
   const [diagnostics, setDiagnostics] = useState<AuthDiagnostics | null>(null)
 
   // Form state
   const [formData, setFormData] = useState({
-    title: '',
-    body: '',
-    language: 'sl' as 'sl' | 'en',
-    active: false,
-    start_date: '',
-    end_date: '',
+    name: '',
+    race_date: '',
+    region: '',
+    link: '',
   })
 
-  // Load announcements with proper error handling
-  const loadAnnouncements = useCallback(async () => {
+  // Form validation state
+  const [formErrors, setFormErrors] = useState({
+    name: '',
+    race_date: '',
+    link: '',
+  })
+
+  // Load races with proper error handling
+  const loadRaces = useCallback(async () => {
     setLoading(true)
     setLoadError(null)
 
     try {
       const { data, error } = await supabase
-        .from('announcements')
+        .from('races')
         .select('*')
-        .order('created_at', { ascending: false })
+        .order('race_date', { ascending: true })
 
       if (error) {
-        console.error('Error loading announcements:', error)
-        setLoadError(error.message || 'Failed to load announcements')
-        setAnnouncements([])
+        console.error('Error loading races:', error)
+        setLoadError(error.message || 'Failed to load races')
+        setRaces([])
       } else {
-        setAnnouncements(data || [])
+        setRaces(data || [])
       }
     } catch (err) {
-      console.error('Unexpected error loading announcements:', err)
-      setLoadError('Unexpected error loading announcements')
-      setAnnouncements([])
+      console.error('Unexpected error loading races:', err)
+      setLoadError('Unexpected error loading races')
+      setRaces([])
     } finally {
       setLoading(false)
     }
   }, [])
 
   useEffect(() => {
-    loadAnnouncements()
-  }, [loadAnnouncements])
+    loadRaces()
+  }, [loadRaces])
+
+  // Filter races based on search
+  const filteredRaces = races.filter((race) => {
+    const matchesSearch =
+      !searchQuery ||
+      race.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (race.region && race.region.toLowerCase().includes(searchQuery.toLowerCase()))
+    return matchesSearch
+  })
+
+  function validateForm(): boolean {
+    const errors = {
+      name: '',
+      race_date: '',
+      link: '',
+    }
+
+    if (!formData.name.trim()) {
+      errors.name = 'Name is required'
+    }
+
+    if (!formData.race_date) {
+      errors.race_date = 'Date is required'
+    }
+
+    if (formData.link && !isValidUrl(formData.link)) {
+      errors.link = 'Please enter a valid URL'
+    }
+
+    setFormErrors(errors)
+    return !errors.name && !errors.race_date && !errors.link
+  }
 
   function openCreateModal() {
     setFormData({
-      title: '',
-      body: '',
-      language: 'sl',
-      active: false,
-      start_date: '',
-      end_date: '',
+      name: '',
+      race_date: '',
+      region: '',
+      link: '',
     })
-    setEditingAnnouncement(null)
+    setFormErrors({ name: '', race_date: '', link: '' })
+    setEditingRace(null)
     setSaveError(null)
     setModalMode('create')
   }
 
-  function openEditModal(announcement: Announcement) {
+  function openEditModal(race: Race) {
     setFormData({
-      title: announcement.title,
-      body: announcement.body,
-      language: announcement.language,
-      active: announcement.active,
-      start_date: announcement.start_date ? announcement.start_date.slice(0, 16) : '',
-      end_date: announcement.end_date ? announcement.end_date.slice(0, 16) : '',
+      name: race.name,
+      race_date: race.race_date,
+      region: race.region || '',
+      link: race.link || '',
     })
-    setEditingAnnouncement(announcement)
+    setFormErrors({ name: '', race_date: '', link: '' })
+    setEditingRace(race)
     setSaveError(null)
     setModalMode('edit')
   }
 
   function closeModal() {
-    if (saving) return // Don't close while saving
+    if (saving) return
     setModalMode(null)
-    setEditingAnnouncement(null)
+    setEditingRace(null)
     setSaveError(null)
+    setFormErrors({ name: '', race_date: '', link: '' })
   }
 
   // CREATE / UPDATE handler
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
-    // Prevent double-submit
     if (saving) return
+
+    if (!validateForm()) return
 
     setSaving(true)
     setSaveError(null)
@@ -128,12 +178,10 @@ export default function AnnouncementsPage() {
 
     const action = modalMode === 'create' ? 'CREATE' : 'UPDATE'
     const payload = {
-      title: formData.title.trim(),
-      body: formData.body.trim(),
-      language: normalizeLanguage(formData.language),
-      active: formData.active,
-      start_date: normalizeDate(formData.start_date),
-      end_date: normalizeDate(formData.end_date),
+      name: formData.name.trim(),
+      race_date: formData.race_date,
+      region: formData.region.trim() || null,
+      link: normalizeUrl(formData.link),
     }
 
     try {
@@ -142,32 +190,28 @@ export default function AnnouncementsPage() {
       let error = null
 
       if (modalMode === 'create') {
-        const result = await supabase.from('announcements').insert(payload)
+        const result = await supabase.from('races').insert(payload)
         error = result.error
-      } else if (modalMode === 'edit' && editingAnnouncement) {
+      } else if (modalMode === 'edit' && editingRace) {
         const result = await supabase
-          .from('announcements')
+          .from('races')
           .update(payload)
-          .eq('id', editingAnnouncement.id)
+          .eq('id', editingRace.id)
         error = result.error
       }
 
       if (error) {
-        // Fetch diagnostics on-demand for error reporting
         const currentDiag = await getAuthDiagnostics()
         setDiagnostics(currentDiag)
 
-        // Log full context
         console.error(`[${action}] === WRITE FAILURE ===`)
         console.error(`[${action}] Error:`, error)
         console.error(`[${action}] Error code:`, error.code)
         console.error(`[${action}] Error hint:`, error.hint)
         console.error(`[${action}] Auth diagnostics:`, currentDiag)
-        console.error(`[${action}] Payload:`, payload)
         console.error(`[${action}] ======================`)
 
-        // Build user-facing error with diagnostics
-        const errorMsg = error.message || 'Failed to save announcement'
+        const errorMsg = error.message || 'Failed to save race'
         const diagInfo = formatDiagnosticsForError(currentDiag)
         setSaveError(`${errorMsg} (Code: ${error.code || 'unknown'})\n\nDiagnostics: ${diagInfo}`)
         return
@@ -175,9 +219,8 @@ export default function AnnouncementsPage() {
 
       console.log(`[${action}] Success!`)
       closeModal()
-      await loadAnnouncements()
+      await loadRaces()
     } catch (err) {
-      // Fetch diagnostics on-demand for error reporting
       const currentDiag = await getAuthDiagnostics()
       setDiagnostics(currentDiag)
 
@@ -192,28 +235,22 @@ export default function AnnouncementsPage() {
 
   // DELETE handler
   async function handleDelete(id: string) {
-    if (!confirm('Are you sure you want to delete this announcement?')) return
+    if (!confirm('Are you sure you want to delete this race?')) return
 
-    // Prevent double-delete
     if (deletingId) return
 
     setDeletingId(id)
     setPageError(null)
 
     try {
-      console.log('[DELETE] Deleting announcement:', id)
+      console.log('[DELETE] Deleting race:', id)
 
-      const { error } = await supabase
-        .from('announcements')
-        .delete()
-        .eq('id', id)
+      const { error } = await supabase.from('races').delete().eq('id', id)
 
       if (error) {
-        // Fetch diagnostics on-demand for error reporting
         const currentDiag = await getAuthDiagnostics()
         setDiagnostics(currentDiag)
 
-        // Log full context
         console.error('[DELETE] === WRITE FAILURE ===')
         console.error('[DELETE] Error:', error)
         console.error('[DELETE] Error code:', error.code)
@@ -221,40 +258,37 @@ export default function AnnouncementsPage() {
         console.error('[DELETE] Auth diagnostics:', currentDiag)
         console.error('[DELETE] ======================')
 
-        const errorMsg = error.message || 'Failed to delete announcement'
+        const errorMsg = error.message || 'Failed to delete race'
         const diagInfo = formatDiagnosticsForError(currentDiag)
         setPageError(`Delete failed: ${errorMsg} (Code: ${error.code || 'unknown'})\n\nDiagnostics: ${diagInfo}`)
         return
       }
 
       console.log('[DELETE] Success!')
-      await loadAnnouncements()
+      await loadRaces()
     } catch (err) {
-      // Fetch diagnostics on-demand for error reporting
       const currentDiag = await getAuthDiagnostics()
       setDiagnostics(currentDiag)
 
       console.error('[DELETE] Unexpected error:', err)
       console.error('[DELETE] Auth diagnostics:', currentDiag)
       const diagInfo = formatDiagnosticsForError(currentDiag)
-      setPageError(`Unexpected error deleting announcement.\n\nDiagnostics: ${diagInfo}`)
+      setPageError(`Unexpected error deleting race.\n\nDiagnostics: ${diagInfo}`)
     } finally {
       setDeletingId(null)
     }
   }
 
-  function formatDate(dateStr: string | null) {
-    if (!dateStr) return '—'
+  function formatDate(dateStr: string): string {
     try {
       return new Date(dateStr).toLocaleDateString('sl-SI', {
+        weekday: 'short',
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
       })
     } catch {
-      return '—'
+      return dateStr
     }
   }
 
@@ -266,16 +300,28 @@ export default function AnnouncementsPage() {
     <AdminProtected>
       <div>
         <div className="pageHeader">
-          <h1 className="pageTitle">Announcements</h1>
+          <h1 className="pageTitle">Races</h1>
           <button onClick={openCreateModal} className="primaryBtn" disabled={loading}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
-            New Announcement
+            New Race
           </button>
         </div>
 
-        {/* Auth diagnostics panel (shown when there are errors or for debugging) */}
+        {/* Search */}
+        <div style={{ display: 'flex', gap: 'var(--space-3)', marginBottom: 'var(--space-4)', flexWrap: 'wrap' }}>
+          <input
+            type="text"
+            placeholder="Search by name or region..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="formInput"
+            style={{ flex: '1', minWidth: '200px', maxWidth: '300px' }}
+          />
+        </div>
+
+        {/* Auth diagnostics panel (shown when there are errors) */}
         {diagnostics && (pageError || saveError || loadError) && (
           <div
             style={{
@@ -298,24 +344,10 @@ export default function AnnouncementsPage() {
               </span>
               <span>User ID:</span>
               <span>{diagnostics.userId || 'none'}</span>
-              <span>Email:</span>
-              <span>{diagnostics.userEmail || 'none'}</span>
               <span>Admin:</span>
               <span style={{ color: diagnostics.isAdmin ? 'var(--color-brand-green)' : 'var(--color-danger)' }}>
                 {diagnostics.isAdmin ? 'Yes' : 'No'}
               </span>
-              {diagnostics.sessionError && (
-                <>
-                  <span>Session Error:</span>
-                  <span style={{ color: 'var(--color-danger)' }}>{diagnostics.sessionError}</span>
-                </>
-              )}
-              {diagnostics.adminCheckError && (
-                <>
-                  <span>Admin Check Error:</span>
-                  <span style={{ color: 'var(--color-danger)' }}>{diagnostics.adminCheckError}</span>
-                </>
-              )}
             </div>
           </div>
         )}
@@ -329,7 +361,7 @@ export default function AnnouncementsPage() {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
-              whiteSpace: 'pre-wrap'
+              whiteSpace: 'pre-wrap',
             }}
           >
             <span>{pageError}</span>
@@ -342,7 +374,7 @@ export default function AnnouncementsPage() {
                 cursor: 'pointer',
                 padding: '4px',
                 fontSize: '16px',
-                flexShrink: 0
+                flexShrink: 0,
               }}
             >
               ✕
@@ -355,7 +387,7 @@ export default function AnnouncementsPage() {
           <div className="loginError" style={{ marginBottom: 'var(--space-4)' }}>
             {loadError}
             <button
-              onClick={loadAnnouncements}
+              onClick={loadRaces}
               style={{
                 marginLeft: 'var(--space-3)',
                 background: 'none',
@@ -363,7 +395,7 @@ export default function AnnouncementsPage() {
                 color: 'inherit',
                 cursor: 'pointer',
                 padding: '4px 8px',
-                borderRadius: '4px'
+                borderRadius: '4px',
               }}
             >
               Retry
@@ -375,62 +407,61 @@ export default function AnnouncementsPage() {
           <div className="loading">
             <div className="spinner" />
           </div>
-        ) : announcements.length === 0 && !loadError ? (
+        ) : filteredRaces.length === 0 && !loadError ? (
           <div className="tableContainer">
             <div className="emptyState">
-              <p>No announcements yet. Create your first one!</p>
+              <p>{races.length === 0 ? 'No races yet. Create your first one!' : 'No races match your search.'}</p>
             </div>
           </div>
-        ) : announcements.length > 0 ? (
+        ) : filteredRaces.length > 0 ? (
           <div className="tableContainer">
             <table className="table">
               <thead>
                 <tr>
-                  <th>Title</th>
-                  <th>Language</th>
-                  <th>Status</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
+                  <th>Name</th>
+                  <th>Date</th>
+                  <th>Region</th>
+                  <th>Link</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {announcements.map((announcement) => (
-                  <tr key={announcement.id}>
+                {filteredRaces.map((race) => (
+                  <tr key={race.id}>
                     <td>
-                      <strong>{announcement.title}</strong>
-                      <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-muted)', marginTop: '4px' }}>
-                        {announcement.body.length > 60
-                          ? announcement.body.slice(0, 60) + '...'
-                          : announcement.body}
-                      </div>
+                      <strong>{race.name}</strong>
                     </td>
+                    <td>{formatDate(race.race_date)}</td>
+                    <td>{race.region || '—'}</td>
                     <td>
-                      <span className="langBadge">{announcement.language}</span>
+                      {race.link ? (
+                        <a
+                          href={race.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: 'var(--color-brand-green)', textDecoration: 'none' }}
+                        >
+                          Link
+                        </a>
+                      ) : (
+                        '—'
+                      )}
                     </td>
-                    <td>
-                      <span className={`statusBadge ${announcement.active ? 'active' : 'inactive'}`}>
-                        <span className="statusDot" />
-                        {announcement.active ? 'Active' : 'Inactive'}
-                      </span>
-                    </td>
-                    <td>{formatDate(announcement.start_date)}</td>
-                    <td>{formatDate(announcement.end_date)}</td>
                     <td>
                       <div className="actions">
                         <button
-                          onClick={() => openEditModal(announcement)}
+                          onClick={() => openEditModal(race)}
                           className="editBtn"
-                          disabled={deletingId === announcement.id}
+                          disabled={deletingId === race.id}
                         >
                           Edit
                         </button>
                         <button
-                          onClick={() => handleDelete(announcement.id)}
+                          onClick={() => handleDelete(race.id)}
                           className="dangerBtn"
                           disabled={deletingId !== null}
                         >
-                          {deletingId === announcement.id ? 'Deleting...' : 'Delete'}
+                          {deletingId === race.id ? 'Deleting...' : 'Delete'}
                         </button>
                       </div>
                     </td>
@@ -444,11 +475,9 @@ export default function AnnouncementsPage() {
         {/* Modal */}
         {modalMode && (
           <div className="modalOverlay" onClick={closeModal}>
-            <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '500px' }}>
               <div className="modalHeader">
-                <h2 className="modalTitle">
-                  {modalMode === 'create' ? 'New Announcement' : 'Edit Announcement'}
-                </h2>
+                <h2 className="modalTitle">{modalMode === 'create' ? 'New Race' : 'Edit Race'}</h2>
                 <button onClick={closeModal} className="modalClose" disabled={saving}>
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -459,102 +488,102 @@ export default function AnnouncementsPage() {
               <form onSubmit={handleSubmit}>
                 <div className="modalBody">
                   {saveError && (
-                    <div className="loginError" style={{ marginBottom: 'var(--space-4)', whiteSpace: 'pre-wrap', fontSize: 'var(--text-sm)' }}>
+                    <div
+                      className="loginError"
+                      style={{ marginBottom: 'var(--space-4)', whiteSpace: 'pre-wrap', fontSize: 'var(--text-sm)' }}
+                    >
                       {saveError}
                     </div>
                   )}
                   <div className="modalForm">
+                    {/* Name */}
                     <div className="formGroup">
-                      <label htmlFor="title" className="formLabel">
-                        Title
+                      <label htmlFor="name" className="formLabel">
+                        Name *
                       </label>
                       <input
-                        id="title"
+                        id="name"
                         type="text"
-                        value={formData.title}
-                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                        value={formData.name}
+                        onChange={(e) => {
+                          setFormData({ ...formData, name: e.target.value })
+                          if (formErrors.name) setFormErrors({ ...formErrors, name: '' })
+                        }}
                         className="formInput"
-                        placeholder="Announcement title"
-                        required
+                        placeholder="e.g. Maraton Franja"
                         disabled={saving}
+                        style={formErrors.name ? { borderColor: 'var(--color-danger)' } : {}}
                       />
-                    </div>
-
-                    <div className="formGroup">
-                      <label htmlFor="body" className="formLabel">
-                        Body
-                      </label>
-                      <textarea
-                        id="body"
-                        value={formData.body}
-                        onChange={(e) => setFormData({ ...formData, body: e.target.value })}
-                        className="formTextarea"
-                        placeholder="Announcement content..."
-                        required
-                        disabled={saving}
-                      />
-                    </div>
-
-                    <div className="formRow">
-                      <div className="formGroup">
-                        <label htmlFor="language" className="formLabel">
-                          Language
-                        </label>
-                        <select
-                          id="language"
-                          value={formData.language}
-                          onChange={(e) => setFormData({ ...formData, language: e.target.value as 'sl' | 'en' })}
-                          className="formSelect"
-                          disabled={saving}
-                        >
-                          <option value="sl">Slovenian (SL)</option>
-                          <option value="en">English (EN)</option>
-                        </select>
-                      </div>
-
-                      <div className="formGroup">
-                        <label className="formLabel">&nbsp;</label>
-                        <div className="formCheckbox">
-                          <input
-                            id="active"
-                            type="checkbox"
-                            checked={formData.active}
-                            onChange={(e) => setFormData({ ...formData, active: e.target.checked })}
-                            disabled={saving}
-                          />
-                          <label htmlFor="active">Active</label>
+                      {formErrors.name && (
+                        <div style={{ color: 'var(--color-danger)', fontSize: 'var(--text-sm)', marginTop: '4px' }}>
+                          {formErrors.name}
                         </div>
-                      </div>
+                      )}
                     </div>
 
-                    <div className="formRow">
-                      <div className="formGroup">
-                        <label htmlFor="start_date" className="formLabel">
-                          Start Date (optional)
-                        </label>
-                        <input
-                          id="start_date"
-                          type="datetime-local"
-                          value={formData.start_date}
-                          onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-                          className="formInput"
-                          disabled={saving}
-                        />
-                      </div>
+                    {/* Date */}
+                    <div className="formGroup">
+                      <label htmlFor="race_date" className="formLabel">
+                        Date *
+                      </label>
+                      <input
+                        id="race_date"
+                        type="date"
+                        value={formData.race_date}
+                        onChange={(e) => {
+                          setFormData({ ...formData, race_date: e.target.value })
+                          if (formErrors.race_date) setFormErrors({ ...formErrors, race_date: '' })
+                        }}
+                        className="formInput"
+                        disabled={saving}
+                        style={formErrors.race_date ? { borderColor: 'var(--color-danger)' } : {}}
+                      />
+                      {formErrors.race_date && (
+                        <div style={{ color: 'var(--color-danger)', fontSize: 'var(--text-sm)', marginTop: '4px' }}>
+                          {formErrors.race_date}
+                        </div>
+                      )}
+                    </div>
 
-                      <div className="formGroup">
-                        <label htmlFor="end_date" className="formLabel">
-                          End Date (optional)
-                        </label>
-                        <input
-                          id="end_date"
-                          type="datetime-local"
-                          value={formData.end_date}
-                          onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
-                          className="formInput"
-                          disabled={saving}
-                        />
-                      </div>
+                    {/* Region */}
+                    <div className="formGroup">
+                      <label htmlFor="region" className="formLabel">
+                        Region / Location (optional)
+                      </label>
+                      <input
+                        id="region"
+                        type="text"
+                        value={formData.region}
+                        onChange={(e) => setFormData({ ...formData, region: e.target.value })}
+                        className="formInput"
+                        placeholder="e.g. Ljubljana, Gorenjska"
+                        disabled={saving}
+                      />
+                    </div>
+
+                    {/* Link */}
+                    <div className="formGroup">
+                      <label htmlFor="link" className="formLabel">
+                        Link (optional)
+                      </label>
+                      <input
+                        id="link"
+                        type="text"
+                        value={formData.link}
+                        onChange={(e) => {
+                          setFormData({ ...formData, link: e.target.value })
+                          if (formErrors.link) setFormErrors({ ...formErrors, link: '' })
+                        }}
+                        className="formInput"
+                        placeholder="e.g. https://marfranja.si"
+                        disabled={saving}
+                        style={formErrors.link ? { borderColor: 'var(--color-danger)' } : {}}
+                      />
+                      {formErrors.link && (
+                        <div style={{ color: 'var(--color-danger)', fontSize: 'var(--text-sm)', marginTop: '4px' }}>
+                          {formErrors.link}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
