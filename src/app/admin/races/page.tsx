@@ -50,7 +50,8 @@ function normalizeUrl(str: string): string | null {
 // Parse date from DD.MM.YYYY format to YYYY-MM-DD
 function parseDate(dateStr: string): string | null {
   if (!dateStr) return null
-  const trimmed = dateStr.trim()
+  // Normalize dashes: en-dash (–) and em-dash (—) to regular hyphen (-)
+  const trimmed = dateStr.trim().replace(/[–—]/g, '-')
 
   // Handle DD.MM.YYYY format
   const dotMatch = trimmed.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/)
@@ -60,16 +61,9 @@ function parseDate(dateStr: string): string | null {
   }
 
   // Handle date ranges like "05.-06.09.2026" - take first date
-  const rangeMatch = trimmed.match(/^(\d{1,2})\.-?\d{1,2}\.(\d{1,2})\.(\d{4})$/)
+  const rangeMatch = trimmed.match(/^(\d{1,2})\.\s*-\s*\d{1,2}\.(\d{1,2})\.(\d{4})$/)
   if (rangeMatch) {
     const [, day, month, year] = rangeMatch
-    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-  }
-
-  // Handle "26.-27.09.2026" format
-  const rangeMatch2 = trimmed.match(/^(\d{1,2})\.\s*-\s*\d{1,2}\.(\d{1,2})\.(\d{4})$/)
-  if (rangeMatch2) {
-    const [, day, month, year] = rangeMatch2
     return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
   }
 
