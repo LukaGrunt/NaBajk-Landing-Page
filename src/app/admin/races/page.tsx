@@ -21,19 +21,14 @@ interface ParsedCsvResult {
   errors: string[]
 }
 
-// Simple URL validation
+// URL validation with protocol whitelist (security: reject javascript:, data:, etc.)
 function isValidUrl(str: string): boolean {
   if (!str) return true
   try {
-    new URL(str)
-    return true
+    const url = new URL(str.startsWith('http') ? str : 'https://' + str)
+    return ['http:', 'https:'].includes(url.protocol)
   } catch {
-    try {
-      new URL('https://' + str)
-      return true
-    } catch {
-      return false
-    }
+    return false
   }
 }
 
@@ -47,6 +42,11 @@ function normalizeUrl(str: string): string | null {
   return 'https://' + trimmed
 }
 
+// Validate day/month ranges
+function isValidDate(day: number, month: number): boolean {
+  return day >= 1 && day <= 31 && month >= 1 && month <= 12
+}
+
 // Parse date from DD.MM.YYYY format to YYYY-MM-DD
 function parseDate(dateStr: string): string | null {
   if (!dateStr) return null
@@ -56,19 +56,30 @@ function parseDate(dateStr: string): string | null {
   // Handle DD.MM.YYYY format
   const dotMatch = trimmed.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/)
   if (dotMatch) {
-    const [, day, month, year] = dotMatch
-    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+    const [, dayStr, monthStr, year] = dotMatch
+    const day = parseInt(dayStr, 10)
+    const month = parseInt(monthStr, 10)
+    if (!isValidDate(day, month)) return null
+    return `${year}-${monthStr.padStart(2, '0')}-${dayStr.padStart(2, '0')}`
   }
 
   // Handle date ranges like "05.-06.09.2026" - take first date
   const rangeMatch = trimmed.match(/^(\d{1,2})\.\s*-\s*\d{1,2}\.(\d{1,2})\.(\d{4})$/)
   if (rangeMatch) {
-    const [, day, month, year] = rangeMatch
-    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+    const [, dayStr, monthStr, year] = rangeMatch
+    const day = parseInt(dayStr, 10)
+    const month = parseInt(monthStr, 10)
+    if (!isValidDate(day, month)) return null
+    return `${year}-${monthStr.padStart(2, '0')}-${dayStr.padStart(2, '0')}`
   }
 
-  // Already in YYYY-MM-DD format
-  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+  // Already in YYYY-MM-DD format - validate it
+  const isoMatch = trimmed.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+  if (isoMatch) {
+    const [, , monthStr, dayStr] = isoMatch
+    const day = parseInt(dayStr, 10)
+    const month = parseInt(monthStr, 10)
+    if (!isValidDate(day, month)) return null
     return trimmed
   }
 

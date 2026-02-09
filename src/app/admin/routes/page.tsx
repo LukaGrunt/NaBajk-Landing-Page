@@ -136,12 +136,19 @@ export default function RoutesPage() {
   }
 
   // Handle GPX file upload
+  const MAX_GPX_SIZE = 10 * 1024 * 1024 // 10MB
+
   async function handleGpxUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
 
     if (!file.name.toLowerCase().endsWith('.gpx')) {
       setGpxError('Please upload a .gpx file')
+      return
+    }
+
+    if (file.size > MAX_GPX_SIZE) {
+      setGpxError('File too large (max 10MB)')
       return
     }
 
