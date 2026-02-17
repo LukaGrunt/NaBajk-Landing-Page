@@ -232,9 +232,9 @@ export const REGIONS = [
 ] as const
 
 export const DIFFICULTIES = [
-  { value: 'easy', label: 'Easy' },
-  { value: 'medium', label: 'Medium' },
-  { value: 'hard', label: 'Hard' },
+  { value: 'Lahka', label: 'Lahka' },
+  { value: 'Srednja', label: 'Srednja' },
+  { value: 'Težka', label: 'Težka' },
 ] as const
 
 export const RACE_TYPES = [

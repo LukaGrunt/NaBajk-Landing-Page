@@ -10,7 +10,7 @@ import { parseGpxFile } from '@/lib/gpx-parser'
 
 type ModalMode = 'create' | 'edit' | null
 
-type Difficulty = 'easy' | 'medium' | 'hard'
+type Difficulty = 'Lahka' | 'Srednja' | 'Težka'
 type Region = 'gorenjska' | 'dolenjska' | 'stajerska' | 'primorska' | 'osrednja_slovenija' | 'prekmurje'
 
 export default function RoutesPage() {
@@ -41,7 +41,7 @@ export default function RoutesPage() {
     gpx_data: null as string | null,
     distance_km: null as number | null,
     elevation_m: null as number | null,
-    difficulty: 'medium' as Difficulty,
+    difficulty: 'Srednja' as Difficulty,
     region: 'gorenjska' as Region,
     traffic: '',
     road_condition: '',
@@ -95,7 +95,7 @@ export default function RoutesPage() {
       gpx_data: null,
       distance_km: null,
       elevation_m: null,
-      difficulty: 'medium',
+      difficulty: 'Srednja',
       region: 'gorenjska',
       traffic: '',
       road_condition: '',
@@ -485,7 +485,7 @@ export default function RoutesPage() {
                     <td>{route.elevation_m ? `${route.elevation_m} m` : '—'}</td>
                     <td>
                       <span
-                        className={`statusBadge ${route.difficulty === 'easy' ? 'active' : route.difficulty === 'hard' ? 'inactive' : ''}`}
+                        className={`statusBadge ${route.difficulty === 'Lahka' ? 'active' : route.difficulty === 'Težka' ? 'inactive' : ''}`}
                       >
                         {getDifficultyLabel(route.difficulty)}
                       </span>
