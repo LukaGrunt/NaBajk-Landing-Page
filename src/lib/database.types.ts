@@ -88,7 +88,7 @@ export interface Database {
           gpx_data: string | null
           distance_km: number | null
           elevation_m: number | null
-          difficulty: 'easy' | 'medium' | 'hard'
+          difficulty: 'Lahka' | 'Srednja' | 'Težka'
           region: 'gorenjska' | 'dolenjska' | 'stajerska' | 'primorska' | 'osrednja_slovenija' | 'prekmurje'
           traffic: string | null
           road_condition: string | null
@@ -103,7 +103,7 @@ export interface Database {
           gpx_data?: string | null
           distance_km?: number | null
           elevation_m?: number | null
-          difficulty: 'easy' | 'medium' | 'hard'
+          difficulty: 'Lahka' | 'Srednja' | 'Težka'
           region: 'gorenjska' | 'dolenjska' | 'stajerska' | 'primorska' | 'osrednja_slovenija' | 'prekmurje'
           traffic?: string | null
           road_condition?: string | null
@@ -118,7 +118,7 @@ export interface Database {
           gpx_data?: string | null
           distance_km?: number | null
           elevation_m?: number | null
-          difficulty?: 'easy' | 'medium' | 'hard'
+          difficulty?: 'Lahka' | 'Srednja' | 'Težka'
           region?: 'gorenjska' | 'dolenjska' | 'stajerska' | 'primorska' | 'osrednja_slovenija' | 'prekmurje'
           traffic?: string | null
           road_condition?: string | null

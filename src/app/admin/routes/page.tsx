@@ -114,7 +114,7 @@ export default function RoutesPage() {
       gpx_data: route.gpx_data,
       distance_km: route.distance_km,
       elevation_m: route.elevation_m,
-      difficulty: route.difficulty,
+      difficulty: route.difficulty as Difficulty,
       region: route.region,
       traffic: route.traffic || '',
       road_condition: route.road_condition || '',
