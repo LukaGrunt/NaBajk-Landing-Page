@@ -60,6 +60,28 @@ export const translations = {
     langSlo: 'SLO',
     langEng: 'ENG',
 
+    // Submit Route
+    submitRouteTagline: 'SKUPNOST',
+    submitRouteTitle: 'Naloži svojo traso',
+    submitRouteDescription: 'Imaš GPX datoteko na računalniku? Naloži svojo najljubšo traso in jo deli s skupnostjo.',
+    submitRouteButton: 'Naloži traso',
+    submitRouteModalTitle: 'Naloži traso',
+    submitRouteGpxLabel: 'GPX datoteka',
+    submitRouteGpxHint: 'Največ 5 MB',
+    submitRouteTitleLabel: 'Naslov (npr. "Kranj - Bled - Bohinj")',
+    submitRouteRegionLabel: 'Regija',
+    submitRouteDifficultyLabel: 'Težavnost',
+    submitRouteWhyGoodLabel: 'Zakaj je ta trasa dobra? (opcijsko)',
+    submitRouteTrafficLabel: 'Promet (opcijsko)',
+    submitRouteConditionLabel: 'Stanje ceste (opcijsko)',
+    submitRouteSubmitButton: 'Pošlji traso',
+    submitRouteSubmitting: 'Pošiljam...',
+    submitRouteSuccess: 'Hvala! Trasa bo pregledana in objavljena.',
+    submitRouteError: 'Nekaj je šlo narobe. Poskusi znova.',
+    submitRouteFileTooLarge: 'Datoteka je prevelika (največ 5 MB)',
+    submitRouteInvalidFile: 'Naloži .gpx datoteko',
+    submitRouteCalculated: 'Izračunano',
+
     // Regions
     regionGorenjska: 'Gorenjska',
     regionOther: 'Kmalu še več regij',
@@ -122,6 +144,28 @@ export const translations = {
     // Language toggle
     langSlo: 'SLO',
     langEng: 'ENG',
+
+    // Submit Route
+    submitRouteTagline: 'COMMUNITY',
+    submitRouteTitle: 'Upload your route',
+    submitRouteDescription: 'Got a GPX file on your computer? Upload your favorite route and share it with the community.',
+    submitRouteButton: 'Upload route',
+    submitRouteModalTitle: 'Upload route',
+    submitRouteGpxLabel: 'GPX file',
+    submitRouteGpxHint: 'Max 5 MB',
+    submitRouteTitleLabel: 'Title (e.g. "Kranj - Bled - Bohinj")',
+    submitRouteRegionLabel: 'Region',
+    submitRouteDifficultyLabel: 'Difficulty',
+    submitRouteWhyGoodLabel: 'Why is this route good? (optional)',
+    submitRouteTrafficLabel: 'Traffic (optional)',
+    submitRouteConditionLabel: 'Road condition (optional)',
+    submitRouteSubmitButton: 'Submit route',
+    submitRouteSubmitting: 'Submitting...',
+    submitRouteSuccess: 'Thanks! Your route will be reviewed and published.',
+    submitRouteError: 'Something went wrong. Please try again.',
+    submitRouteFileTooLarge: 'File too large (max 5 MB)',
+    submitRouteInvalidFile: 'Please upload a .gpx file',
+    submitRouteCalculated: 'Calculated',
 
     // Regions
     regionGorenjska: 'Gorenjska',
