@@ -131,7 +131,7 @@ export function SubmitRoute() {
           traffic: traffic.trim() || null,
           road_condition: roadCondition.trim() || null,
           why_good: whyGood.trim() || null,
-          published: false,
+          published: true,
         })
 
       if (error) {
