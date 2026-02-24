@@ -19,11 +19,11 @@ export default function Home() {
         {/* Feature narrative section */}
         <FeatureNarrative />
 
-        {/* App preview section */}
-        <AppPreview />
-
         {/* Submit route section */}
         <SubmitRoute />
+
+        {/* App preview section */}
+        <AppPreview />
 
         {/* Contact section */}
         <ContactSection />
