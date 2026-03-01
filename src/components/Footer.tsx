@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useLanguage } from '@/lib/LanguageContext'
 import styles from './Footer.module.css'
 
@@ -32,6 +33,13 @@ export function Footer() {
               <circle cx="18" cy="6" r="1.5" fill="currentColor"/>
             </svg>
           </a>
+        </div>
+
+        {/* Legal links */}
+        <div className={styles.links}>
+          <Link href="/privacy-policy" className={styles.legalLink}>{t('footerPrivacy')}</Link>
+          <span className={styles.dot}>·</span>
+          <Link href="/terms-of-service" className={styles.legalLink}>{t('footerTerms')}</Link>
         </div>
 
         {/* Bottom section - Tagline centered */}

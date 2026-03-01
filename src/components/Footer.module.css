@@ -53,6 +53,32 @@
   outline-offset: 2px;
 }
 
+/* Legal links */
+.links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.legalLink {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.legalLink:hover {
+  color: var(--color-text);
+}
+
+.dot {
+  font-size: var(--text-sm);
+  color: var(--color-muted-light);
+}
+
 /* Bottom Section - Tagline centered */
 .bottom {
   text-align: center;

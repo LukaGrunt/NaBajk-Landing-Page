@@ -52,7 +52,8 @@ export const translations = {
 
     // Footer
     footerTagline: 'Narejeno za Slovenijo',
-    footerPrivacy: 'Zasebnost',
+    footerPrivacy: 'Politika zasebnosti',
+    footerTerms: 'Pogoji uporabe',
     footerContact: 'Kontakt',
     footerCopyright: '© 2026 NaBajk. Vse pravice pridržane.',
 
@@ -137,7 +138,8 @@ export const translations = {
 
     // Footer
     footerTagline: 'Made for Slovenia',
-    footerPrivacy: 'Privacy',
+    footerPrivacy: 'Privacy Policy',
+    footerTerms: 'Terms of Service',
     footerContact: 'Contact',
     footerCopyright: '© 2026 NaBajk. All rights reserved.',
 
