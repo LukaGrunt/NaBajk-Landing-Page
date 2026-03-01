@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
       <header className={styles.header}>
         <Link href="/" className={styles.logo}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="NaBajk" width={120} height={34} />
+          <img src="/logo.png" alt="NaBajk" width={120} height={34} />
         </Link>
         <LanguageToggle />
       </header>
