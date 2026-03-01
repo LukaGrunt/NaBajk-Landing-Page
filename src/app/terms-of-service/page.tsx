@@ -37,10 +37,10 @@ export default function TermsOfService() {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>Brezplačna storitev — brez garancij / Free service — no warranties</h2>
             <p>
-              NaBajk je brezplačna platforma, ki se zagotavlja „takšna kot je", brez kakršnih koli garancij za neprekinjeno delovanje, točnost podatkov ali primernost za določen namen.
+              NaBajk je brezplačna platforma, ki se zagotavlja &bdquo;takšna kot je&ldquo;, brez kakršnih koli garancij za neprekinjeno delovanje, točnost podatkov ali primernost za določen namen.
             </p>
             <p>
-              NaBajk is a free platform provided "as is", without any warranties of continuous availability, data accuracy, or fitness for a particular purpose.
+              NaBajk is a free platform provided &ldquo;as is&rdquo;, without any warranties of continuous availability, data accuracy, or fitness for a particular purpose.
             </p>
           </section>
 
