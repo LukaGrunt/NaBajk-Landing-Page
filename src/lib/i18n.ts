@@ -82,6 +82,9 @@ export const translations = {
     submitRouteFileTooLarge: 'Datoteka je prevelika (največ 5 MB)',
     submitRouteInvalidFile: 'Naloži .gpx datoteko',
     submitRouteCalculated: 'Izračunano',
+    submitRouteTypeLabel: 'Tip poti',
+    submitRouteTypeRegular: 'Redna pot',
+    submitRouteTypeClimb: 'Vzpon',
 
     // Regions
     regionGorenjska: 'Gorenjska',
@@ -168,6 +171,9 @@ export const translations = {
     submitRouteFileTooLarge: 'File too large (max 5 MB)',
     submitRouteInvalidFile: 'Please upload a .gpx file',
     submitRouteCalculated: 'Calculated',
+    submitRouteTypeLabel: 'Route type',
+    submitRouteTypeRegular: 'Regular route',
+    submitRouteTypeClimb: 'Climb',
 
     // Regions
     regionGorenjska: 'Gorenjska',

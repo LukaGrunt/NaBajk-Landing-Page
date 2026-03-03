@@ -16,6 +16,9 @@ export function SubmitRoute() {
   const [showModal, setShowModal] = useState(false)
   const [formState, setFormState] = useState<FormState>('idle')
 
+  // Route type
+  const [routeType, setRouteType] = useState<'regular' | 'climb' | null>(null)
+
   // Form fields
   const [title, setTitle] = useState('')
   const [region, setRegion] = useState<string>(REGIONS[0].value)
@@ -36,6 +39,7 @@ export function SubmitRoute() {
   const [honeypot, setHoneypot] = useState('')
 
   function resetForm() {
+    setRouteType(null)
     setTitle('')
     setRegion(REGIONS[0].value)
     setDifficulty('Srednja')
@@ -107,7 +111,7 @@ export function SubmitRoute() {
     // Bot check
     if (honeypot) return
 
-    if (!gpxData || !title.trim()) return
+    if (!gpxData || !title.trim() || !routeType) return
 
     setFormState('loading')
 
@@ -128,6 +132,7 @@ export function SubmitRoute() {
           elevation_m: elevationM,
           difficulty,
           region,
+          is_climb: routeType === 'climb',
           traffic: traffic.trim() || null,
           road_condition: roadCondition.trim() || null,
           why_good: whyGood.trim() || null,
@@ -193,6 +198,36 @@ export function SubmitRoute() {
                   {formState === 'error' && (
                     <div className={styles.error} role="alert">{t('submitRouteError')}</div>
                   )}
+
+                  {/* Route Type */}
+                  <div className={styles.formGroup}>
+                    <label className={styles.formLabel}>{t('submitRouteTypeLabel')} <span className={styles.required}>*</span></label>
+                    <div className={styles.routeTypeRow}>
+                      <button
+                        type="button"
+                        onClick={() => setRouteType('regular')}
+                        className={`${styles.routeTypeCard} ${routeType === 'regular' ? styles.routeTypeCardRegularSelected : ''}`}
+                      >
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <circle cx="6" cy="17" r="3" stroke="currentColor" strokeWidth="2"/>
+                          <circle cx="18" cy="17" r="3" stroke="currentColor" strokeWidth="2"/>
+                          <path d="M6 17L9 9H15L18 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M9 9L12 4L15 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        {t('submitRouteTypeRegular')}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setRouteType('climb')}
+                        className={`${styles.routeTypeCard} ${routeType === 'climb' ? styles.routeTypeCardClimbSelected : ''}`}
+                      >
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M3 20L9 8L14 14L17 10L21 20H3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        {t('submitRouteTypeClimb')}
+                      </button>
+                    </div>
+                  </div>
 
                   {/* GPX Upload */}
                   <div className={styles.formGroup}>
@@ -297,7 +332,7 @@ export function SubmitRoute() {
                   <button
                     type="submit"
                     className={styles.submitBtn}
-                    disabled={formState === 'loading' || !gpxData || !title.trim()}
+                    disabled={formState === 'loading' || !routeType || !gpxData || !title.trim()}
                   >
                     {formState === 'loading' ? (
                       <>
