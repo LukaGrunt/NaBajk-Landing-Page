@@ -43,6 +43,7 @@ export default function RoutesPage() {
     elevation_m: null as number | null,
     difficulty: 'Srednja' as Difficulty,
     region: 'gorenjska' as Region,
+    is_climb: false,
     traffic: '',
     road_condition: '',
     why_good: '',
@@ -97,6 +98,7 @@ export default function RoutesPage() {
       elevation_m: null,
       difficulty: 'Srednja',
       region: 'gorenjska',
+      is_climb: false,
       traffic: '',
       road_condition: '',
       why_good: '',
@@ -116,6 +118,7 @@ export default function RoutesPage() {
       elevation_m: route.elevation_m,
       difficulty: route.difficulty as Difficulty,
       region: route.region,
+      is_climb: route.is_climb,
       traffic: route.traffic || '',
       road_condition: route.road_condition || '',
       why_good: route.why_good || '',
@@ -201,6 +204,7 @@ export default function RoutesPage() {
       elevation_m: formData.elevation_m,
       difficulty: formData.difficulty,
       region: formData.region,
+      is_climb: formData.is_climb,
       traffic: formData.traffic.trim() || null,
       road_condition: formData.road_condition.trim() || null,
       why_good: formData.why_good.trim() || null,
@@ -464,6 +468,7 @@ export default function RoutesPage() {
               <thead>
                 <tr>
                   <th>Title</th>
+                  <th>Type</th>
                   <th>Region</th>
                   <th>Distance</th>
                   <th>Elevation</th>
@@ -477,6 +482,23 @@ export default function RoutesPage() {
                   <tr key={route.id}>
                     <td>
                       <strong>{route.title}</strong>
+                    </td>
+                    <td>
+                      <span style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '2px 8px',
+                        borderRadius: '999px',
+                        fontSize: 'var(--text-xs)',
+                        fontWeight: 600,
+                        background: route.is_climb ? 'rgba(249,115,22,0.12)' : 'rgba(0,191,118,0.12)',
+                        color: route.is_climb ? '#f97316' : 'var(--color-brand-green)',
+                        border: `1px solid ${route.is_climb ? 'rgba(249,115,22,0.3)' : 'rgba(0,191,118,0.3)'}`,
+                        whiteSpace: 'nowrap',
+                      }}>
+                        {route.is_climb ? '▲ Vzpon' : '⬤ Redna pot'}
+                      </span>
                     </td>
                     <td>
                       <span className="langBadge">{getRegionLabel(route.region)}</span>
@@ -678,6 +700,20 @@ export default function RoutesPage() {
                         disabled={saving}
                         rows={2}
                       />
+                    </div>
+
+                    {/* Route type + Published toggles */}
+                    <div className="formGroup">
+                      <div className="formCheckbox">
+                        <input
+                          id="is_climb"
+                          type="checkbox"
+                          checked={formData.is_climb}
+                          onChange={(e) => setFormData({ ...formData, is_climb: e.target.checked })}
+                          disabled={saving}
+                        />
+                        <label htmlFor="is_climb">Vzpon / Climb (uncheck for Redna pot / Regular route)</label>
+                      </div>
                     </div>
 
                     {/* Published toggle */}
