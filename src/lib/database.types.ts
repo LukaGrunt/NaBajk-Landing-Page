@@ -90,6 +90,7 @@ export interface Database {
           elevation_m: number | null
           difficulty: 'Lahka' | 'Srednja' | 'Težka'
           region: 'gorenjska' | 'dolenjska' | 'stajerska' | 'primorska' | 'osrednja_slovenija' | 'prekmurje'
+          is_climb: boolean
           traffic: string | null
           road_condition: string | null
           why_good: string | null
@@ -105,6 +106,7 @@ export interface Database {
           elevation_m?: number | null
           difficulty: 'Lahka' | 'Srednja' | 'Težka'
           region: 'gorenjska' | 'dolenjska' | 'stajerska' | 'primorska' | 'osrednja_slovenija' | 'prekmurje'
+          is_climb?: boolean
           traffic?: string | null
           road_condition?: string | null
           why_good?: string | null
@@ -120,6 +122,7 @@ export interface Database {
           elevation_m?: number | null
           difficulty?: 'Lahka' | 'Srednja' | 'Težka'
           region?: 'gorenjska' | 'dolenjska' | 'stajerska' | 'primorska' | 'osrednja_slovenija' | 'prekmurje'
+          is_climb?: boolean
           traffic?: string | null
           road_condition?: string | null
           why_good?: string | null
