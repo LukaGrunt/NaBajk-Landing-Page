@@ -247,38 +247,71 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  padding: var(--space-4) var(--space-3);
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-3);
   background: var(--color-bg);
   border: 2px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   cursor: pointer;
   transition:
     border-color var(--duration-fast) var(--ease-out),
-    background-color var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+    background-color var(--duration-fast) var(--ease-out);
   font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--color-muted);
   text-align: center;
 }
 
 .routeTypeCard:hover {
-  border-color: var(--color-text);
+  border-color: var(--color-muted);
+}
+
+.routeTypeIconBadge {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.routeTypeIconBadgeGreen {
+  background: rgba(0, 191, 118, 0.15);
+  color: var(--color-brand-green);
+}
+
+.routeTypeIconBadgeOrange {
+  background: rgba(249, 115, 22, 0.15);
+  color: #f97316;
+}
+
+.routeTypeCardLabel {
+  font-size: var(--text-sm);
+  font-weight: 700;
   color: var(--color-text);
+}
+
+.routeTypeCardSub {
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  line-height: 1.3;
 }
 
 .routeTypeCardRegularSelected {
   border-color: var(--color-brand-green);
-  background: rgba(0, 191, 118, 0.08);
-  color: var(--color-brand-green);
+  background: rgba(0, 191, 118, 0.06);
 }
 
 .routeTypeCardClimbSelected {
   border-color: #f97316;
-  background: rgba(249, 115, 22, 0.08);
-  color: #f97316;
+  background: rgba(249, 115, 22, 0.06);
+}
+
+.routeTypeCardRegularSelected .routeTypeIconBadgeGreen {
+  background: rgba(0, 191, 118, 0.25);
+}
+
+.routeTypeCardClimbSelected .routeTypeIconBadgeOrange {
+  background: rgba(249, 115, 22, 0.25);
 }
 
 .required {

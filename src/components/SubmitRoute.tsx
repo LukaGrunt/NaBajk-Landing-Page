@@ -208,23 +208,30 @@ export function SubmitRoute() {
                         onClick={() => setRouteType('regular')}
                         className={`${styles.routeTypeCard} ${routeType === 'regular' ? styles.routeTypeCardRegularSelected : ''}`}
                       >
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                          <circle cx="6" cy="17" r="3" stroke="currentColor" strokeWidth="2"/>
-                          <circle cx="18" cy="17" r="3" stroke="currentColor" strokeWidth="2"/>
-                          <path d="M6 17L9 9H15L18 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M9 9L12 4L15 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                        {t('submitRouteTypeRegular')}
+                        <div className={`${styles.routeTypeIconBadge} ${styles.routeTypeIconBadgeGreen}`}>
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <circle cx="5.5" cy="17.5" r="3" stroke="currentColor" strokeWidth="1.8"/>
+                            <circle cx="18.5" cy="17.5" r="3" stroke="currentColor" strokeWidth="1.8"/>
+                            <path d="M5.5 17.5L9 9.5H15L18.5 17.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M9 9.5L12 5L15 9.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                            <circle cx="12" cy="5" r="1" fill="currentColor"/>
+                          </svg>
+                        </div>
+                        <span className={styles.routeTypeCardLabel}>{t('submitRouteTypeRegular')}</span>
+                        <span className={styles.routeTypeCardSub}>Kolesarska tura</span>
                       </button>
                       <button
                         type="button"
                         onClick={() => setRouteType('climb')}
                         className={`${styles.routeTypeCard} ${routeType === 'climb' ? styles.routeTypeCardClimbSelected : ''}`}
                       >
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                          <path d="M3 20L9 8L14 14L17 10L21 20H3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                        {t('submitRouteTypeClimb')}
+                        <div className={`${styles.routeTypeIconBadge} ${styles.routeTypeIconBadgeOrange}`}>
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M3 20L9 8L14 14L17 10L21 20H3Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                        <span className={styles.routeTypeCardLabel}>{t('submitRouteTypeClimb')}</span>
+                        <span className={styles.routeTypeCardSub}>Klanec od dna do vrha</span>
                       </button>
                     </div>
                   </div>
