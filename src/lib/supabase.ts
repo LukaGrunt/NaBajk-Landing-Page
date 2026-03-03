@@ -30,16 +30,11 @@ export async function getUser() {
   return { user, error }
 }
 
-// Check if a user is an admin (pass userId to avoid refetching)
-export async function checkIsAdmin(userId?: string): Promise<boolean> {
-  const uid = userId || (await getUser()).user?.id
-  if (!uid) return false
-
-  const { data, error } = await supabase
-    .from('admins')
-    .select('id')
-    .eq('user_id', uid)
-    .maybeSingle()
+// Check if a user is an admin using the SECURITY DEFINER RPC function.
+// Querying the admins table directly fails due to circular RLS (you must be
+// an admin to read the admins table). The is_admin() function bypasses RLS.
+export async function checkIsAdmin(_userId?: string): Promise<boolean> {
+  const { data, error } = await supabase.rpc('is_admin')
 
   if (error) {
     console.error('Admin check error:', error)
