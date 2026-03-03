@@ -40,8 +40,14 @@ export function AdminProtected({ children }: AdminProtectedProps) {
       <div className="adminLayout">
         <div className="accessDenied">
           <h1>Access Denied</h1>
-          <p>You do not have permission to access the admin dashboard.</p>
-          <button onClick={signOut} className="secondaryBtn">
+          <p>Your account is not in the admins table.</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-muted)', fontFamily: 'var(--font-mono)', marginTop: '8px' }}>
+            User ID: {user.id}
+          </p>
+          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-muted)', marginTop: '4px' }}>
+            Add this ID to the <code>admins</code> table in Supabase to grant access.
+          </p>
+          <button onClick={signOut} className="secondaryBtn" style={{ marginTop: '16px' }}>
             Sign out
           </button>
         </div>

@@ -39,10 +39,13 @@ export async function checkIsAdmin(userId?: string): Promise<boolean> {
     .from('admins')
     .select('id')
     .eq('user_id', uid)
-    .single()
+    .maybeSingle()
 
-  if (error || !data) return false
-  return true
+  if (error) {
+    console.error('Admin check error:', error)
+    return false
+  }
+  return !!data
 }
 
 // Diagnostics type for debugging
