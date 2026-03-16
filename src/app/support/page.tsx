@@ -45,7 +45,7 @@ export default function SupportPage() {
             </p>
             <p>
               <strong>When will the app be available?</strong><br />
-              NaBajk is currently in development. Sign up for the waitlist at nabajk.si and we'll notify you at launch.
+              NaBajk is currently in development. Sign up for the waitlist at nabajk.si and we&apos;ll notify you at launch.
             </p>
             <p>
               <strong>Kako izbrišem račun?</strong><br />
