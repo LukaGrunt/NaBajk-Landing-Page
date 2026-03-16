@@ -40,6 +40,8 @@ export function Footer() {
           <Link href="/privacy-policy" className={styles.legalLink}>{t('footerPrivacy')}</Link>
           <span className={styles.dot}>·</span>
           <Link href="/terms-of-service" className={styles.legalLink}>{t('footerTerms')}</Link>
+          <span className={styles.dot}>·</span>
+          <Link href="/support" className={styles.legalLink}>{t('footerSupport')}</Link>
         </div>
 
         {/* Bottom section - Tagline centered */}

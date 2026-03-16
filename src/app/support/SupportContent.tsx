@@ -5,6 +5,8 @@ import { useLanguage } from '@/lib/LanguageContext'
 import { SupportEmail } from './SupportEmail'
 import styles from '../legal.module.css'
 
+const FAQ_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9'] as const
+
 export function SupportContent() {
   const { t } = useLanguage()
 
@@ -16,13 +18,22 @@ export function SupportContent() {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>{t('supportContactTitle')}</h2>
         <p>{t('supportContactDesc')}</p>
-        <SupportEmail copyLabel={t('contactModalCopy')} copiedLabel={t('contactModalCopied')} gmailLabel={t('contactModalOpenGmail')} />
+        <SupportEmail
+          copyLabel={t('contactModalCopy')}
+          copiedLabel={t('contactModalCopied')}
+          gmailLabel={t('contactModalOpenGmail')}
+        />
       </section>
 
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>{t('supportFaqTitle')}</h2>
-        <p><strong>{t('supportQ1')}</strong><br />{t('supportA1')}</p>
-        <p><strong>{t('supportQ2')}</strong><br />{t('supportA2')}</p>
+        {FAQ_KEYS.map((n) => (
+          <p key={n}>
+            <strong>{t(`supportQ${n}` as Parameters<typeof t>[0])}</strong>
+            <br />
+            {t(`supportA${n}` as Parameters<typeof t>[0])}
+          </p>
+        ))}
       </section>
 
       <Link href="/" className={styles.backLink}>
