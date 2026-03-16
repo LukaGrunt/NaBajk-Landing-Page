@@ -53,8 +53,19 @@ export const translations = {
     contactModalEmail: 'E-poštni naslov',
     contactModalCopy: 'Kopiraj e-mail',
     contactModalCopied: 'Kopirano!',
-    contactModalOpenMail: 'Odpri v Mail',
     contactModalOpenGmail: 'Odpri v Gmail',
+
+    // Support page
+    supportTitle: 'Podpora',
+    supportSubtitle: 'NaBajk — nabajk.si',
+    supportContactTitle: 'Stopi v stik',
+    supportContactDesc: 'Za vsa vprašanja, težave z aplikacijo ali povratne informacije nas kontaktirajte na:',
+    supportFaqTitle: 'Pogosta vprašanja',
+    supportQ1: 'Kdaj bo aplikacija na voljo?',
+    supportA1: 'NaBajk je trenutno v razvoju. Prijavi se na čakalno listo na nabajk.si in te obvestimo ob izidu.',
+    supportQ2: 'Kako izbrišem račun?',
+    supportA2: 'Račun in vse podatke lahko izbrišeš neposredno v aplikaciji: Nastavitve → Izbriši račun.',
+    supportBack: '← Nazaj',
 
     // Footer
     footerTagline: 'Narejeno za Slovenijo',
@@ -148,8 +159,19 @@ export const translations = {
     contactModalEmail: 'Email address',
     contactModalCopy: 'Copy email',
     contactModalCopied: 'Copied!',
-    contactModalOpenMail: 'Open in Mail',
     contactModalOpenGmail: 'Open in Gmail',
+
+    // Support page
+    supportTitle: 'Support',
+    supportSubtitle: 'NaBajk — nabajk.si',
+    supportContactTitle: 'Contact us',
+    supportContactDesc: 'For any questions, app issues, or feedback, please contact us at:',
+    supportFaqTitle: 'FAQ',
+    supportQ1: 'When will the app be available?',
+    supportA1: "NaBajk is currently in development. Sign up for the waitlist at nabajk.si and we'll notify you at launch.",
+    supportQ2: 'How do I delete my account?',
+    supportA2: 'You can delete your account and all data directly in the app: Settings → Delete Account.',
+    supportBack: '← Back',
 
     // Footer
     footerTagline: 'Made for Slovenia',

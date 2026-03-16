@@ -63,9 +63,6 @@ export function ContactSection() {
                 <button onClick={handleCopy} className={styles.copyButton}>
                   {copied ? t('contactModalCopied') : t('contactModalCopy')}
                 </button>
-                <a href={`mailto:${EMAIL}`} className={styles.mailLink}>
-                  {t('contactModalOpenMail')}
-                </a>
                 <a href={GMAIL_URL} target="_blank" rel="noopener noreferrer" className={styles.gmailLink}>
                   {t('contactModalOpenGmail')}
                 </a>

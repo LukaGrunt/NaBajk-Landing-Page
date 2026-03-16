@@ -6,7 +6,13 @@ import styles from './support.module.css'
 const EMAIL = 'nabajk.si@gmail.com'
 const GMAIL_URL = `https://mail.google.com/mail/?view=cm&to=${EMAIL}`
 
-export function SupportEmail() {
+interface Props {
+  copyLabel: string
+  copiedLabel: string
+  gmailLabel: string
+}
+
+export function SupportEmail({ copyLabel, copiedLabel, gmailLabel }: Props) {
   const [copied, setCopied] = useState(false)
 
   async function handleCopy() {
@@ -20,13 +26,10 @@ export function SupportEmail() {
       <p className={styles.emailAddress}>{EMAIL}</p>
       <div className={styles.emailActions}>
         <button onClick={handleCopy} className={styles.copyButton}>
-          {copied ? 'Kopirano! / Copied!' : 'Kopiraj / Copy'}
+          {copied ? copiedLabel : copyLabel}
         </button>
-        <a href={`mailto:${EMAIL}`} className={styles.mailLink}>
-          Odpri v Mail / Open in Mail
-        </a>
         <a href={GMAIL_URL} target="_blank" rel="noopener noreferrer" className={styles.gmailLink}>
-          Odpri v Gmail / Open in Gmail
+          {gmailLabel}
         </a>
       </div>
     </div>

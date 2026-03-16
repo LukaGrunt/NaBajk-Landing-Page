@@ -222,7 +222,7 @@
   color: var(--color-brand-green);
 }
 
-.mailLink {
+.gmailLink {
   flex: 1;
   display: flex;
   align-items: center;
@@ -240,28 +240,7 @@
     box-shadow var(--duration-fast) var(--ease-out);
 }
 
-.mailLink:hover {
+.gmailLink:hover {
   background-color: var(--color-brand-green-dark);
   box-shadow: var(--shadow-glow);
-}
-
-.gmailLink {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-3) var(--space-4);
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--color-brand-green);
-  background: transparent;
-  border: 1px solid rgba(0, 191, 118, 0.4);
-  border-radius: var(--radius-lg);
-  text-decoration: none;
-  transition: background-color var(--duration-fast) var(--ease-out);
-}
-
-.gmailLink:hover {
-  background: rgba(0, 191, 118, 0.1);
 }
