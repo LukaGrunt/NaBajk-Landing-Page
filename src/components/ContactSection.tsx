@@ -5,6 +5,7 @@ import { useLanguage } from '@/lib/LanguageContext'
 import styles from './ContactSection.module.css'
 
 const EMAIL = 'nabajk.si@gmail.com'
+const GMAIL_URL = `https://mail.google.com/mail/?view=cm&to=${EMAIL}`
 
 export function ContactSection() {
   const { t } = useLanguage()
@@ -64,6 +65,9 @@ export function ContactSection() {
                 </button>
                 <a href={`mailto:${EMAIL}`} className={styles.mailLink}>
                   {t('contactModalOpenMail')}
+                </a>
+                <a href={GMAIL_URL} target="_blank" rel="noopener noreferrer" className={styles.gmailLink}>
+                  {t('contactModalOpenGmail')}
                 </a>
               </div>
             </div>

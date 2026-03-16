@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { LanguageToggle } from '@/components/LanguageToggle'
+import { SupportEmail } from './SupportEmail'
 import styles from '../legal.module.css'
 
 export const metadata = {
@@ -32,9 +33,7 @@ export default function SupportPage() {
             <p>
               For any questions, app issues, or feedback, please contact us at:
             </p>
-            <p>
-              <a href="mailto:nabajk.si@gmail.com">nabajk.si@gmail.com</a>
-            </p>
+            <SupportEmail />
           </section>
 
           <section className={styles.section}>

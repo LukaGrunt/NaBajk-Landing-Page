@@ -54,6 +54,7 @@ export const translations = {
     contactModalCopy: 'Kopiraj e-mail',
     contactModalCopied: 'Kopirano!',
     contactModalOpenMail: 'Odpri v Mail',
+    contactModalOpenGmail: 'Odpri v Gmail',
 
     // Footer
     footerTagline: 'Narejeno za Slovenijo',
@@ -148,6 +149,7 @@ export const translations = {
     contactModalCopy: 'Copy email',
     contactModalCopied: 'Copied!',
     contactModalOpenMail: 'Open in Mail',
+    contactModalOpenGmail: 'Open in Gmail',
 
     // Footer
     footerTagline: 'Made for Slovenia',

@@ -1,0 +1,74 @@
+.emailBlock {
+  margin: var(--space-4) 0 0;
+  padding: var(--space-4) var(--space-5);
+  background: rgba(0, 191, 118, 0.06);
+  border: 1px solid rgba(0, 191, 118, 0.2);
+  border-radius: var(--radius-lg);
+}
+
+.emailAddress {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text) !important;
+  margin: 0 0 var(--space-3) !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.emailActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.copyButton {
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--duration-fast), color var(--duration-fast);
+}
+
+.copyButton:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-brand-green);
+}
+
+.mailLink,
+.gmailLink {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: background-color var(--duration-fast), box-shadow var(--duration-fast);
+}
+
+.mailLink {
+  color: var(--color-bg);
+  background-color: var(--color-brand-green);
+}
+
+.mailLink:hover {
+  background-color: var(--color-brand-green-dark);
+  box-shadow: var(--shadow-glow);
+}
+
+.gmailLink {
+  color: var(--color-brand-green);
+  background: transparent;
+  border: 1px solid rgba(0, 191, 118, 0.4);
+}
+
+.gmailLink:hover {
+  background: rgba(0, 191, 118, 0.1);
+}
