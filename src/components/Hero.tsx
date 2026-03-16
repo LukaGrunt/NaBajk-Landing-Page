@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useLanguage } from '@/lib/LanguageContext'
 import { LanguageToggle } from './LanguageToggle'
 import { WaitlistForm } from './WaitlistForm'
@@ -34,6 +35,9 @@ export function Hero() {
             />
           </div>
           <div className={styles.headerRight}>
+            <Link href="/support" className={styles.navLink}>
+              {t('footerSupport')}
+            </Link>
             <a
               href="https://www.instagram.com/nabajk.si/"
               target="_blank"
