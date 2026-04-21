@@ -1,92 +1,140 @@
 .footer {
-  padding: var(--space-8) 0;
-  background-color: var(--color-bg);
-  border-top: 1px solid var(--color-border-subtle);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: 2.5rem 0 2rem;
 }
 
 .container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--space-6);
+  padding: 0 1.5rem;
 }
 
 @media (max-width: 640px) {
   .container {
-    padding: 0 var(--space-4);
+    padding: 0 1rem;
   }
 }
 
-/* Top Section - Logo left, Instagram right */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Top: logo + store buttons + instagram */
 .top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .logo {
-  height: 32px;
+  height: 28px;
   width: auto;
-  object-fit: contain;
 }
 
-/* Instagram link */
-.instagramLink {
+.right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.storeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.storeBtn:hover {
+  border-color: rgba(0, 191, 118, 0.3);
+  transform: translateY(-1px);
+}
+
+.storeSub {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1;
+}
+
+.storeName {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.igLink {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   color: var(--color-muted);
   border-radius: var(--radius-md);
-  transition: color var(--duration-fast) var(--ease-out), background-color var(--duration-fast) var(--ease-out);
+  transition: color 0.15s, background-color 0.15s;
 }
 
-.instagramLink:hover {
+.igLink:hover {
   color: var(--color-brand-green);
   background-color: rgba(0, 191, 118, 0.1);
 }
 
-.instagramLink:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-}
-
-/* Legal links */
+/* Links */
 .links {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: var(--space-3);
-  margin-bottom: var(--space-4);
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
-.legalLink {
+.link {
   font-family: var(--font-body);
-  font-size: var(--text-sm);
+  font-size: 0.875rem;
   color: var(--color-muted);
   text-decoration: none;
-  transition: color var(--duration-fast) var(--ease-out);
+  transition: color 0.15s;
 }
 
-.legalLink:hover {
-  color: var(--color-text);
+.link:hover {
+  color: var(--color-brand-green);
 }
 
 .dot {
-  font-size: var(--text-sm);
   color: var(--color-muted-light);
+  font-size: 0.875rem;
 }
 
-/* Bottom Section - Tagline centered */
+/* Bottom */
 .bottom {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border-subtle);
 }
 
-.tagline {
+.tagline,
+.copy {
   font-family: var(--font-body);
-  font-size: var(--text-sm);
-  color: var(--color-muted);
-  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-muted-light);
 }

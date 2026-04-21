@@ -264,16 +264,92 @@
   }
 }
 
-/* Waitlist Form */
-.waitlistWrapper {
+/* Store Buttons */
+.storeBtns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
   opacity: 0;
   animation: fadeUp var(--duration-slow) var(--ease-out) 0.3s forwards;
 }
 
 @media (min-width: 768px) {
-  .waitlistWrapper {
+  .storeBtns {
+    justify-content: flex-start;
     animation-delay: 0.4s;
   }
+}
+
+@media (max-width: 480px) {
+  .storeBtns {
+    flex-direction: column;
+  }
+}
+
+.storeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0.75rem 1.5rem;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-xl);
+  text-decoration: none;
+  min-width: 175px;
+  transition: transform 0.15s var(--ease-out), box-shadow 0.15s, border-color 0.15s;
+}
+
+@media (max-width: 480px) {
+  .storeBtn {
+    min-width: 0;
+    justify-content: center;
+  }
+}
+
+.storeBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 191, 118, 0.2);
+  border-color: rgba(0, 191, 118, 0.3);
+}
+
+.storeBtn:active {
+  transform: scale(0.98);
+}
+
+@keyframes hbGlow {
+  0% { box-shadow: 0 0 0 0 rgba(0, 191, 118, 0.7), 0 8px 24px rgba(0, 0, 0, 0.5); border-color: rgba(0, 191, 118, 0.8); }
+  50% { box-shadow: 0 0 0 8px rgba(0, 191, 118, 0), 0 8px 24px rgba(0, 0, 0, 0.5); border-color: rgba(0, 191, 118, 0.4); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 191, 118, 0), 0 8px 24px rgba(0, 0, 0, 0.5); border-color: rgba(255, 255, 255, 0.12); }
+}
+
+.storeBtnApple {
+  animation: hbGlow 2.8s ease-in-out infinite;
+}
+
+.storeBtnPlay {
+  animation: hbGlow 2.8s ease-in-out 1.4s infinite;
+}
+
+.storeBtnSub {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.storeBtnName {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 /* Scroll Indicator */

@@ -153,19 +153,74 @@ export function SubmitRoute() {
 
   return (
     <>
-      <section className={styles.section}>
+      <section className={styles.section} id="community">
         <div className={styles.container}>
-          <div className={styles.card}>
-            <p className={styles.tagline}>{t('submitRouteTagline')}</p>
-            <h2 className={styles.title}>{t('submitRouteTitle')}</h2>
-            <p className={styles.description}>{t('submitRouteDescription')}</p>
-            <button onClick={openModal} className={styles.ctaButton}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 16V8M12 8L9 11M12 8L15 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M3 15V17C3 19.2091 4.79086 21 7 21H17C19.2091 21 21 19.2091 21 17V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-              {t('submitRouteButton')}
-            </button>
+          <div className={styles.inner}>
+            {/* Left: GPX card visual */}
+            <div className={styles.visual}>
+              <div className={styles.gpxCard}>
+                <div className={styles.gpxCardHeader}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <polyline points="14,2 14,8 20,8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <span className={styles.gpxCardFileName}>vrsic-mangart-soca.gpx</span>
+                </div>
+                <div className={styles.gpxCardStats}>
+                  <div className={styles.gpxStat}>
+                    <span className={styles.gpxStatValue}>127</span>
+                    <span className={styles.gpxStatLabel}>km</span>
+                  </div>
+                  <div className={styles.gpxStatDivider} />
+                  <div className={styles.gpxStat}>
+                    <span className={styles.gpxStatValue}>2410</span>
+                    <span className={styles.gpxStatLabel}>m ↑</span>
+                  </div>
+                  <div className={styles.gpxStatDivider} />
+                  <div className={styles.gpxStat}>
+                    <span className={styles.gpxStatValue}>Goriška</span>
+                    <span className={styles.gpxStatLabel}>{t('submitRouteRegionLabel')}</span>
+                  </div>
+                </div>
+                {/* Mini elevation SVG */}
+                <svg className={styles.miniElev} viewBox="0 0 240 60" fill="none" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="elevGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="rgba(0,191,118,0.4)"/>
+                      <stop offset="100%" stopColor="rgba(0,191,118,0)"/>
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M0 55 L20 50 L40 42 L60 35 L75 20 L90 8 L105 15 L120 45 L135 38 L150 5 L165 18 L180 40 L200 48 L220 52 L240 55 L240 60 L0 60 Z"
+                    fill="url(#elevGrad)"
+                  />
+                  <path
+                    d="M0 55 L20 50 L40 42 L60 35 L75 20 L90 8 L105 15 L120 45 L135 38 L150 5 L165 18 L180 40 L200 48 L220 52 L240 55"
+                    stroke="var(--color-brand-green)"
+                    strokeWidth="1.5"
+                    fill="none"
+                  />
+                </svg>
+                <div className={styles.gpxCardStatus}>
+                  <span className={styles.gpxStatusDot} />
+                  <span className={styles.gpxStatusText}>{t('submitRouteReady')}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: text + button */}
+            <div className={styles.content}>
+              <span className={styles.label}>COMMUNITY</span>
+              <h2 className={styles.title}>{t('submitRouteTitle')}</h2>
+              <p className={styles.description}>{t('submitRouteDescription')}</p>
+              <button onClick={openModal} className={styles.ctaButton}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 16V8M12 8L9 11M12 8L15 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M3 15V17C3 19.2091 4.79086 21 7 21H17C19.2091 21 21 19.2091 21 17V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+                {t('submitRouteButton')}
+              </button>
+            </div>
           </div>
         </div>
       </section>

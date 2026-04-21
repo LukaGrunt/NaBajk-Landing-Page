@@ -1,35 +1,28 @@
 import { Hero } from '@/components/Hero'
-import { FeatureNarrative } from '@/components/FeatureNarrative'
-import { AppPreview } from '@/components/AppPreview'
+import { StatsStrip } from '@/components/StatsStrip'
+import { AppShowcase } from '@/components/AppShowcase'
+import { FeaturesGrid } from '@/components/FeaturesGrid'
+import { Partners } from '@/components/Partners'
+import { ElevationAnimation } from '@/components/ElevationAnimation'
 import { SubmitRoute } from '@/components/SubmitRoute'
+import { DownloadCTA } from '@/components/DownloadCTA'
 import { ContactSection } from '@/components/ContactSection'
 import { Footer } from '@/components/Footer'
-import { RouteLineIndicator } from '@/components/RouteLineIndicator'
 
 export default function Home() {
   return (
     <>
-      {/* Signature element: Scroll progress route line */}
-      <RouteLineIndicator />
-
       <main>
-        {/* Hero with video background and waitlist form */}
         <Hero />
-
-        {/* Feature narrative section */}
-        <FeatureNarrative />
-
-        {/* Submit route section */}
+        <StatsStrip />
+        <AppShowcase />
+        <FeaturesGrid />
+        <Partners />
+        <ElevationAnimation />
         <SubmitRoute />
-
-        {/* App preview section */}
-        <AppPreview />
-
-        {/* Contact section */}
+        <DownloadCTA />
         <ContactSection />
       </main>
-
-      {/* Footer */}
       <Footer />
     </>
   )

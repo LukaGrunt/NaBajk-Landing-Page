@@ -141,6 +141,7 @@ export const translations = {
     submitRouteTypeLabel: 'Tip poti',
     submitRouteTypeRegular: 'Redna pot',
     submitRouteTypeClimb: 'Vzpon',
+    submitRouteReady: 'Pripravljeno za oddajo',
 
     // Regions
     regionGorenjska: 'Gorenjska',
@@ -286,6 +287,7 @@ export const translations = {
     submitRouteTypeLabel: 'Route type',
     submitRouteTypeRegular: 'Regular route',
     submitRouteTypeClimb: 'Climb',
+    submitRouteReady: 'Ready to submit',
 
     // Regions
     regionGorenjska: 'Gorenjska',

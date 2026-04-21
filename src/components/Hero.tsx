@@ -3,49 +3,41 @@
 import Link from 'next/link'
 import { useLanguage } from '@/lib/LanguageContext'
 import { LanguageToggle } from './LanguageToggle'
-import { WaitlistForm } from './WaitlistForm'
 import styles from './Hero.module.css'
 
 export function Hero() {
-  const { t } = useLanguage()
+  const { locale } = useLanguage()
+  const sl = locale === 'sl'
 
   return (
     <section className={styles.hero}>
       {/* Background Image */}
       <div className={styles.imageContainer} aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/hero-poster.png"
-          alt=""
-          className={styles.backgroundImage}
-        />
+        <img src="/hero-poster.png" alt="" className={styles.backgroundImage} />
         <div className={styles.imageOverlay} />
       </div>
 
       {/* Content */}
       <div className={styles.content}>
-        {/* Header with logo, Instagram, and language toggle */}
-        <header className={styles.header}>
+        {/* Nav */}
+        <nav className={styles.header}>
           <div className={styles.logo}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/logo.png"
-              alt="NaBajk"
-              className={styles.logoImage}
-            />
+            <img src="/logo.png" alt="NaBajk" className={styles.logoImage} />
           </div>
           <div className={styles.headerRight}>
             <Link href="/support" className={styles.navLink}>
-              {t('footerSupport')}
+              {sl ? 'Podpora' : 'Support'}
             </Link>
             <a
               href="https://www.instagram.com/nabajk.si/"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.instagramLink}
-              aria-label="Follow NaBajk on Instagram"
+              aria-label="Instagram"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="2"/>
                 <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/>
                 <circle cx="18" cy="6" r="1.5" fill="currentColor"/>
@@ -53,26 +45,58 @@ export function Hero() {
             </a>
             <LanguageToggle />
           </div>
-        </header>
+        </nav>
 
         {/* Main hero content */}
         <div className={styles.main}>
           <div className={styles.textContent}>
-            {/* Headline */}
-            <h1 className={styles.headline}>{t('heroHeadline')}</h1>
-
-            {/* Subtitle */}
+            <h1 className={styles.headline}>
+              {sl ? 'Ne veš kam na kolo?' : "Don't know where to ride?"}
+            </h1>
             <p className={styles.subtitle}>
-              {t('heroSubheadlinePrefix')}
-              <span className={styles.subtitleAccent}>{t('heroSubheadlineAccent')}</span>
+              {sl ? 'Izbrane cestne poti v ' : 'Curated road routes in '}
+              <span className={styles.subtitleAccent}>{sl ? 'Sloveniji.' : 'Slovenia.'}</span>
+            </p>
+            <p className={styles.description}>
+              {sl
+                ? 'Poti po regijah, GPS snemanje, skupinske vožnje, koledar tekem in vreme. Vse na enem mestu, brezplačno.'
+                : 'Routes by region, GPS recording, group rides, race calendar and live weather. One free app for Slovenian cyclists.'}
             </p>
 
-            {/* Description */}
-            <p className={styles.description}>{t('heroDescription')}</p>
-
-            {/* Waitlist Form */}
-            <div className={styles.waitlistWrapper}>
-              <WaitlistForm />
+            {/* Store buttons */}
+            <div className={styles.storeBtns}>
+              <a
+                href="https://apps.apple.com/us/app/nabajk/id6758962078"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${styles.storeBtn} ${styles.storeBtnApple}`}
+              >
+                <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+                  <path d="M20.5 14.8c-.02-2.88 2.35-4.27 2.45-4.34-1.34-1.95-3.42-2.22-4.15-2.25-1.77-.18-3.45 1.04-4.35 1.04-.9 0-2.3-1.02-3.78-.99-1.95.03-3.75 1.13-4.75 2.86-2.03 3.5-.52 8.7 1.46 11.55.97 1.39 2.12 2.95 3.63 2.9 1.46-.06 2.01-.94 3.77-.94 1.76 0 2.27.94 3.8.91 1.57-.03 2.56-1.41 3.52-2.81 1.11-1.61 1.57-3.17 1.59-3.25-.04-.02-3.04-1.16-3.07-4.62l-.12-.06z" fill="white"/>
+                  <path d="M17.67 6.5c.8-.97 1.35-2.32 1.2-3.67-1.16.05-2.57.78-3.4 1.74-.75.86-1.4 2.23-1.22 3.55 1.29.1 2.61-.66 3.42-1.62z" fill="white"/>
+                </svg>
+                <span>
+                  <span className={styles.storeBtnSub}>{sl ? 'Prenesi na' : 'Download on the'}</span>
+                  <span className={styles.storeBtnName}>App Store</span>
+                </span>
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.nabajk.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${styles.storeBtn} ${styles.storeBtnPlay}`}
+              >
+                <svg width="24" height="24" viewBox="0 0 26 26" fill="none">
+                  <path d="M3.5 2.3c-.3.3-.5.8-.5 1.4v18.6c0 .6.2 1.1.5 1.4l.1.1 10.4-10.4v-.2L3.6 2.2l-.1.1z" fill="#4FC3F7"/>
+                  <path d="M17.5 16.8l-3.5-3.5v-.2l3.5-3.5.1.1 4.1 2.3c1.2.7 1.2 1.8 0 2.4l-4.1 2.3-.1.1z" fill="#FFD54F"/>
+                  <path d="M17.6 16.7L14 13 3.5 23.5c.4.4 1 .4 1.7.1l12.4-6.9z" fill="#F06292"/>
+                  <path d="M17.6 9.3L5.2 2.4C4.5 2.1 3.9 2.1 3.5 2.5L14 13l3.6-3.7z" fill="#81C784"/>
+                </svg>
+                <span>
+                  <span className={styles.storeBtnSub}>{sl ? 'Prenesi na' : 'Get it on'}</span>
+                  <span className={styles.storeBtnName}>Google Play</span>
+                </span>
+              </a>
             </div>
           </div>
         </div>
